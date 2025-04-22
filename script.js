@@ -227,9 +227,32 @@ botaoReset.onclick = function () {
     alert("Locações apagadas com sucesso.");
   }
 };
+
+form.onsubmit = function (e) {
+  e.preventDefault();
+  const locacao = {
+    livroId: bookSelect.value,
+    leitor: document.getElementById("leitor").value,
+    cpf: document.getElementById("cpf").value,
+    dataLocacao: document.getElementById("data-locacao").value,
+    dataDevolucao: document.getElementById("data-devolucao").value
+  };
+  if (locacao.cpf.length !== 11 || isNaN(locacao.cpf)) {
+    alert("CPF deve ter 11 dígitos e conter apenas números.");
+    return;
+  }
+  let registros = JSON.parse(localStorage.getItem("locacoes")) || [];
+  registros.push(locacao);
+  localStorage.setItem("locacoes", JSON.stringify(registros));
+
+  exibirLocacoes(); 
+
+  alert("Locação registrada com sucesso!");
+  form.reset();
+};
   
 
   window.onload = exibirLocacoes;
-  
+  exibirLocacoes();
 
 
