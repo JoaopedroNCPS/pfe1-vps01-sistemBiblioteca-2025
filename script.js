@@ -197,3 +197,39 @@ const livros = [
   });
   
   exibirLivros(livros);
+
+  function exibirLocacoes() {
+    let locacoes = JSON.parse(localStorage.getItem("locacoes")) || [];
+  
+    const tabelaBody = document.querySelector("#tabela-locacoes tbody");
+  
+    tabelaBody.innerHTML = "";
+    locacoes.forEach(locacao => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${locacao.livroId}</td>
+        <td>${locacao.leitor}</td>
+        <td>${locacao.cpf}</td>
+        <td>${locacao.dataLocacao}</td>
+        <td>${locacao.dataDevolucao}</td>
+      `;
+      tabelaBody.appendChild(row);
+    });
+  }
+
+  const botaoReset = document.getElementById("reset-locacoes");
+
+botaoReset.onclick = function () {
+  const confirmar = confirm("Tem certeza que deseja apagar todas as locações?");
+  if (confirmar) {
+    localStorage.removeItem("locacoes");
+    exibirLocacoes();
+    alert("Locações apagadas com sucesso.");
+  }
+};
+  
+
+  window.onload = exibirLocacoes;
+  
+
+
